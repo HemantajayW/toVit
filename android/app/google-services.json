@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1072722202699",
+    "firebase_url": "https://tovit-d0f5c-default-rtdb.firebaseio.com",
+    "project_id": "tovit-d0f5c",
+    "storage_bucket": "tovit-d0f5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072722202699:android:4d35047f28f2fc31913dce",
+        "android_client_info": {
+          "package_name": "com.haw.toVit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072722202699-helo31js0lbgql42vr5mtuflhdvulfqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haw.toVit",
+            "certificate_hash": "0e58f02aa33ca79af07516c671339a434f8c22b2"
+          }
+        },
+        {
+          "client_id": "1072722202699-kgfld3916q51lji905dp7pq9c2f85p67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRckFclcOk8h7QzCCluesxVpjQ1jXzNvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072722202699-kgfld3916q51lji905dp7pq9c2f85p67.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
