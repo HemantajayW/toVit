@@ -29,6 +29,9 @@ import 'package:google_fonts/google_fonts.dart';
 const Color bluedarkbackground = Color(0xff232424);
 //inc001000596395
 int shadeNo = 1;
+Color shadeDark = Color(0xff7279B9);
+Color shadeLight = Color(0xffABAFD5);
+
 // ColorShade getShadeAt(int index) => shades[index];
 
 // Color get getShade => shades[shadeNo].light!;

@@ -4,9 +4,11 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:tovit/App%20Services/NavigationService/NavigationService.dart';
 import 'package:tovit/App%20Services/NavigationService/routeNames.dart';
@@ -16,12 +18,15 @@ import 'package:tovit/App%20Services/mapservice/mapmethods.dart';
 import 'package:tovit/App%20Services/snackbarService.dart/snackbarsevice.dart';
 import 'package:tovit/Styles/spacer.dart';
 import 'package:tovit/Styles/textstyles.dart';
+import 'package:tovit/app/homeScreen.dart/NavigatingWidger.dart';
+import 'package:tovit/app/homeScreen.dart/WhileNavigating.dart';
 import 'package:tovit/app/searchpage/searchpage.dart';
 import 'package:tovit/dataprovider/Appdata.dart';
 import 'package:tovit/responsiveUi/ResponsiveWidget.dart';
 import 'package:tovit/responsiveUi/sizingInformation.dart';
 
 import '../../main.dart';
+import 'MainHomeWidget.dart';
 import 'NotDrawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,19 +50,22 @@ class _HomeScreenState extends State<HomeScreen> {
   Set<Polyline> _polylines = {};
   Set<Marker> _markers = {};
   Set<Circle> _circles = {};
-  bool isNavigating = true;
-
+  bool isNavigating = false;
+  bool startNavigation = false;
   var appdata = locator<AppData>();
   late SimpleFontelicoProgressDialog _dialog;
-  var mapPadding = 0.0;
+  late PageController pageController;
+  var mapPadding = 400.0;
+  String address = "";
   Completer<GoogleMapController> _controller = Completer();
-
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    target: LatLng(16.493165, 80.498346),
+    zoom: 16.4,
   );
+
   @override
   void initState() {
+    pageController = PageController(initialPage: 1, viewportFraction: 0.8);
     _dialog = SimpleFontelicoProgressDialog(
         context: context, barrierDimisable: false);
     super.initState();
@@ -79,6 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
       CameraPosition cp = CameraPosition(target: pos, zoom: 14);
       mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
+      address = Provider.of<AppData>(context, listen: false)
+          .pickupAddress!
+          .placeName!;
     }
   }
 
@@ -118,12 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> getDirection(sizingInfo) async {
+  Future<void> getDirection(sizingInfo, pickup, drop) async {
     _dialog.show(
       message: "Loading",
     );
-    var pickup = Provider.of<AppData>(context, listen: false).pickupAddress;
-    var drop = Provider.of<AppData>(context, listen: false).dropLocation;
+    // var pickup = Provider.of<AppData>(context, listen: false).pickupAddress;
+    // var drop = Provider.of<AppData>(context, listen: false).dropLocation;
     print("got pick and drop address");
     var responce = await MapMethods.getDirections(
         LatLng(pickup!.latitude!, pickup.longitude!),
@@ -218,6 +229,42 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  _getMeCampus(sizingInfo) {
+    address =
+        Provider.of<AppData>(context, listen: false).pickupAddress!.placeName!;
+    getDirection(
+        sizingInfo,
+        Provider.of<AppData>(context, listen: false).pickupAddress,
+        Provider.of<AppData>(context, listen: false).campusLocation);
+    setState(() {
+      startNavigation = true;
+    });
+  }
+
+  _getMeHome(sizingInfo) {
+    address =
+        Provider.of<AppData>(context, listen: false).campusLocation!.placeName!;
+    getDirection(
+        sizingInfo,
+        Provider.of<AppData>(context, listen: false).campusLocation,
+        Provider.of<AppData>(context, listen: false).pickupAddress);
+    setState(() {
+      startNavigation = true;
+    });
+  }
+
+  resetApp() {
+    setState(() {
+      _circles.clear();
+      _markers.clear();
+      polylinecordinates.clear();
+      _polylines.clear();
+      isNavigating = false;
+      startNavigation = false;
+      setupCurrentPosition();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
@@ -229,348 +276,47 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
           children: [
             vGooglemap(sizingInfo),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 800),
-                curve: Curves.fastOutSlowIn,
-                height: isNavigating
-                    ? sizingInfo.screenSize!.height * 0.35
-                    : sizingInfo.screenSize!.height * 0.55,
-                width: sizingInfo.screenSize!.width,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(isNavigating ? 15 : 30),
-                    topRight: Radius.circular(isNavigating ? 15 : 30),
-                  ),
-                ),
-                padding: EdgeInsets.all(12),
-                child: isNavigating
-                    ? Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                height: 5,
-                                width: 25,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10) +
-                                  EdgeInsets.only(top: 5),
-                              child: Text(
-                                "Your Bus",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  height: sizingInfo.screenSize!.height * 0.23,
-                                  child: ListView.separated(
-                                    itemCount: 20,
-                                    separatorBuilder: (context, index) =>
-                                        Padding(
-                                      padding: EdgeInsets.all(10),
-                                    ),
-                                    physics: PageScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => Container(
-                                        width:
-                                            sizingInfo.screenSize!.width * 0.8,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.amber)),
-                                  )),
-                            )
-                          ],
+            startNavigation
+                ? NavigatingWidget(
+                    address: address,
+                  )
+                : Align(
+                    alignment: Alignment.bottomCenter,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 800),
+                      curve: Curves.fastOutSlowIn,
+                      height: isNavigating
+                          ? sizingInfo.screenSize!.height * 0.4
+                          : sizingInfo.screenSize!.height * 0.55,
+                      width: sizingInfo.screenSize!.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(isNavigating ? 15 : 30),
+                          topRight: Radius.circular(isNavigating ? 15 : 30),
                         ),
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              height: 5,
-                              width: 25,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 30.0),
-                            child: Container(
-                              height: sizingInfo.screenSize!.height * 0.26,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 4,
-                                    child: InkWell(
-                                      onTap: () async {
-                                        var res = await Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (c) => SearchPage()));
-                                        if (res == "1") {
-                                          getDirection(sizingInfo);
-                                        }
-                                      },
-                                      child: Container(
-                                        height: sizingInfo.screenSize!.height *
-                                            0.28,
-                                        width: 140,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 40),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              height: 56,
-                                              width: 56,
-                                              child: Center(
-                                                  child: Icon(
-                                                Icons.search,
-                                                color: Colors.white,
-                                              )),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.black12),
-                                            ),
-                                            Spacer(
-                                              flex: 3,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(3.0),
-                                              child: Text(
-                                                "Get Me \nto Campus",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle1!
-                                                    .copyWith(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.white),
-                                              ),
-                                            ),
-                                            // Spacer(
-                                            //   flex: ,
-                                            // ),
-                                          ],
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context).accentColor,
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Container(
-                                      height:
-                                          sizingInfo.screenSize!.height * 0.28,
-                                      width: 110,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 40),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 56,
-                                            width: 56,
-                                            child: Center(
-                                                child: Icon(
-                                              Icons.home_rounded,
-                                              color: Colors.white,
-                                            )),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xffF0535B)),
-                                          ),
-                                          Spacer(
-                                            flex: 3,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: Text(
-                                              "Get Me Home",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle1!
-                                                  .copyWith(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.white),
-                                            ),
-                                          ),
-                                          // Spacer(
-                                          //   flex: ,
-                                          // ),
-                                        ],
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffF9B8BB),
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: 90,
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.star_outline_rounded,
-                                                color: Colors.black54,
-                                                size: 28,
-                                              ),
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffFfffff),
-                                              border: Border.all(
-                                                  color: Colors.grey.shade100),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.map_outlined,
-                                                color: Colors.black
-                                                    .withOpacity(0.8),
-                                                size: 28,
-                                              ),
-                                            ),
-                                            width: 90,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffFFEE78),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Select your Bus",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(
-                                        fontSize: 18,
-                                        color: Colors.black.withOpacity(0.75),
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                ),
-                                Icon(Icons.keyboard_arrow_right_sharp)
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Container(
-                              height: sizingInfo.screenSize!.height * 0.1,
-                              width: sizingInfo.screenSize!.width,
-                              child: ListView.builder(
-                                itemCount: 13,
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Container(
-                                    child: Center(
-                                        child: Container(
-                                      height: 48,
-                                      width: 48,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        // color: Color(0xffF0535B),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1!
-                                              .copyWith(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black),
-                                        ),
-                                      ),
-                                    )),
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                        // color: Color(0xffF9B8BB),
-                                        border: Border.all(
-                                            color: Colors.grey.shade100),
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
                       ),
-              ),
-            ),
+                      padding: EdgeInsets.all(isNavigating ? 0 : 12),
+                      child: isNavigating
+                          ? WhileNavigating(
+                              pageController: pageController,
+                              resetAll: resetApp,
+                            )
+                          : MainHome(
+                              getMeCampus: _getMeCampus,
+                              getMeHome: _getMeHome,
+                              getdirection: getDirection,
+                            ),
+                    ),
+                  ),
             SafeArea(
               child: InkWell(
                 onTap: () {
-                  scafkey.currentState!.openDrawer();
+                  if (startNavigation) {
+                    resetApp();
+                  } else {
+                    scafkey.currentState!.openDrawer();
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -580,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: Icon(
-                        Icons.menu_rounded,
+                        startNavigation ? Icons.arrow_back : Icons.menu_rounded,
                         color: Colors.black87,
                       ),
                     ),

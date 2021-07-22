@@ -12,6 +12,7 @@ import '../locator.dart';
 class AuthenticationService {
   FirebaseAuth auth = FirebaseAuth.instance;
   Future<dynamic>? _deepLinkBackground;
+
   AuthenticationService() {
     initialiseFirebaseOnlink(_deepLinkBackground);
   }

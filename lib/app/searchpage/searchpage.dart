@@ -34,10 +34,10 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     String address;
-    if (Provider.of<AppData>(context).pickupAddress == null) {
+    if (Provider.of<AppData>(context).campusLocation == null) {
       address = "";
     } else {
-      address = Provider.of<AppData>(context).pickupAddress!.placeName ?? "";
+      address = Provider.of<AppData>(context).campusLocation!.placeName ?? "";
       pickupController.text = address;
       if (address.length != 0) {
         FocusScope.of(context).requestFocus(destinfocus);

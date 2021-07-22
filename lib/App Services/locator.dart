@@ -7,6 +7,7 @@ import 'package:tovit/App%20Services/sharedPreferences/sharedpreferences.dart';
 import 'package:tovit/app/LoginScreen/ViewModel/VM_SignupScreen.dart';
 import 'package:tovit/app/LoginScreen/ViewModel/VM_loginScreen.dart';
 import 'package:tovit/app/SplashSreen/viewmodel/VM_SplashScreen.dart';
+import 'package:tovit/app/homeScreen.dart/VM-homeView.dart';
 import 'package:tovit/app/searchpage/VM_Searchpage.dart';
 import 'package:tovit/dataprovider/Appdata.dart';
 import 'package:tovit/responsiveUi/baseViewModel.dart';
@@ -19,6 +20,7 @@ void setUpLocator() {
   locator.registerLazySingleton<VMLoginScreen>(() => VMLoginScreen());
   locator.registerLazySingleton<StartupLogicModel>(() => StartupLogicModel());
   locator.registerLazySingleton<VM_SignUpScreen>(() => VM_SignUpScreen());
+  locator.registerLazySingleton<VM_HomeScreen>(() => VM_HomeScreen());
   locator.registerLazySingleton<VM_SearchPage>(() => VM_SearchPage());
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationService());
