@@ -43,7 +43,7 @@ The main purpose of this project is to develop a real time bus tracking system t
 10. Programming Language: Dart
 
 
-![](https://user-images.githubusercontent.com/87561916/131907491-0e9173ee-617e-4497-9b07-bcb16246572d.jpg) | ![](https://user-images.githubusercontent.com/87561916/131907495-b79cb002-b470-4786-84af-ad9a605153f0.jpg)
+![](https://user-images.githubusercontent.com/87561916/131907491-0e9173ee-617e-4497-9b07-bcb16246572d.jpg) ![](https://user-images.githubusercontent.com/87561916/131907495-b79cb002-b470-4786-84af-ad9a605153f0.jpg)
 
 ![Screenshot_20210727-134044](https://user-images.githubusercontent.com/87561916/131907498-c0fbe9d9-36f6-45d5-ac98-d5b82cba159c.jpg)
 ![Screenshot_20210727-134134](https://user-images.githubusercontent.com/87561916/131907499-76ecd680-1ce3-4e9b-a136-4afb18f22a6b.jpg)
