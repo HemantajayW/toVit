@@ -8,8 +8,8 @@ The main purpose of this project is to develop a real time bus tracking system t
 
 ## FUNCTIONAL REQUIREMENTS
 
-The System must be able to show information to users in real time.
-The system must be able to process the position data received from the Bus Locating Module and calculate the estimated time to the user.
+1. The System must be able to show information to users in real time.
+2. The system must be able to process the position data received from the Bus Locating Module and calculate the estimated time to the user.
 The system must be able to show estimated arrival time for bus in every bus stop
 The system must be able to allow user retrieve information from mobile device
 The system must be able to do mapping with position data retrieved from bus Locating Module and show the bus position in a map to User.
