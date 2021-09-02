@@ -45,15 +45,15 @@ The main purpose of this project is to develop a real time bus tracking system t
 ## SCREENSHOTS
 
 <p float="left">
-    <img src="https://user-images.githubusercontent.com/87561916/131907506-180203ae-f98e-4362-86bd-afc8ebffd8ce.jpg" width="300" />
-  <img src="https://user-images.githubusercontent.com/87561916/131909937-403397ff-f3dc-4143-b719-1e454d589296.jpg" width="300" />
-  <img src="https://user-images.githubusercontent.com/87561916/131907498-c0fbe9d9-36f6-45d5-ac98-d5b82cba159c.jpg" width="300" />
+    <img src="https://user-images.githubusercontent.com/87561916/131907506-180203ae-f98e-4362-86bd-afc8ebffd8ce.jpg" width="250" />
+  <img src="https://user-images.githubusercontent.com/87561916/131909937-403397ff-f3dc-4143-b719-1e454d589296.jpg" width="250" />
+  <img src="https://user-images.githubusercontent.com/87561916/131907498-c0fbe9d9-36f6-45d5-ac98-d5b82cba159c.jpg" width="250" />
 </p>
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/87561916/131907509-d17295e7-548e-4953-8ea8-fdd015e9d8d5.jpg" width="300" />
-  <img src="https://user-images.githubusercontent.com/87561916/131907499-76ecd680-1ce3-4e9b-a136-4afb18f22a6b.jpg" width="300" /> 
-  <img src="https://user-images.githubusercontent.com/87561916/131907504-71293295-bb74-4da2-aedb-226b4e1cb0ae.jpg" width="300" />
+  <img src="https://user-images.githubusercontent.com/87561916/131907509-d17295e7-548e-4953-8ea8-fdd015e9d8d5.jpg" width="250" />
+  <img src="https://user-images.githubusercontent.com/87561916/131907499-76ecd680-1ce3-4e9b-a136-4afb18f22a6b.jpg" width="250" /> 
+  <img src="https://user-images.githubusercontent.com/87561916/131907504-71293295-bb74-4da2-aedb-226b4e1cb0ae.jpg" width="250" />
 </p>
 
 <p float="center">
