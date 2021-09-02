@@ -46,7 +46,7 @@ The main purpose of this project is to develop a real time bus tracking system t
 
 <p float="left">
     <img src="https://user-images.githubusercontent.com/87561916/131907506-180203ae-f98e-4362-86bd-afc8ebffd8ce.jpg" width="300" />
-  <img src="https://user-images.githubusercontent.com/87561916/131907491-0e9173ee-617e-4497-9b07-bcb16246572d.jpg" width="300" />
+  <img src="https://user-images.githubusercontent.com/87561916/131909937-403397ff-f3dc-4143-b719-1e454d589296.jpg" width="300" />
   <img src="https://user-images.githubusercontent.com/87561916/131907498-c0fbe9d9-36f6-45d5-ac98-d5b82cba159c.jpg" width="300" />
 </p>
 
