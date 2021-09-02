@@ -42,13 +42,21 @@ The main purpose of this project is to develop a real time bus tracking system t
 9. Google Directions API
 10. Programming Language: Dart
 
+## SCREENSHOTS
 
-![](https://user-images.githubusercontent.com/87561916/131907491-0e9173ee-617e-4497-9b07-bcb16246572d.jpg) ![](https://user-images.githubusercontent.com/87561916/131907495-b79cb002-b470-4786-84af-ad9a605153f0.jpg)
+<p float="left">
+    <img src="https://user-images.githubusercontent.com/87561916/131907506-180203ae-f98e-4362-86bd-afc8ebffd8ce.jpg" width="300" />
+  <img src="https://user-images.githubusercontent.com/87561916/131907491-0e9173ee-617e-4497-9b07-bcb16246572d.jpg" width="300" />
+  <img src="https://user-images.githubusercontent.com/87561916/131907498-c0fbe9d9-36f6-45d5-ac98-d5b82cba159c.jpg" width="300" />
+</p>
 
-![Screenshot_20210727-134044](https://user-images.githubusercontent.com/87561916/131907498-c0fbe9d9-36f6-45d5-ac98-d5b82cba159c.jpg)![Screenshot_20210727-135318](https://user-images.githubusercontent.com/87561916/131907509-d17295e7-548e-4953-8ea8-fdd015e9d8d5.jpg)
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/87561916/131907509-d17295e7-548e-4953-8ea8-fdd015e9d8d5.jpg" width="300" />
+  <img src="https://user-images.githubusercontent.com/87561916/131907499-76ecd680-1ce3-4e9b-a136-4afb18f22a6b.jpg" width="300" /> 
+  <img src="https://user-images.githubusercontent.com/87561916/131907504-71293295-bb74-4da2-aedb-226b4e1cb0ae.jpg" width="300" />
+</p>
 
-![Screenshot_20210727-134134](https://user-images.githubusercontent.com/87561916/131907499-76ecd680-1ce3-4e9b-a136-4afb18f22a6b.jpg)
+<p float="center">
 
-![Screenshot_20210727-134139](https://user-images.githubusercontent.com/87561916/131907504-71293295-bb74-4da2-aedb-226b4e1cb0ae.jpg)
-![Screenshot_20210727-135039](https://user-images.githubusercontent.com/87561916/131907506-180203ae-f98e-4362-86bd-afc8ebffd8ce.jpg)
+</p>
 
